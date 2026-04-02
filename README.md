@@ -4,7 +4,7 @@
 Type Banglish exactly the way it sounds.\
 Banglish typing is messy, ambiguous, and inefficient. Shörolipi fixes this with just 26 keys — no obscure symbols, no extra effort. It can be implemented seamlessly on any QWERTY keyboard and captures the exact Bengali pronunciation, making typing faster, clearer, and phonetically precise.\
 বাংলিশ লিখুন নিখুঁত উচ্চারণ-অনুসারে।\
-আমাদের বাংলিশ টাইপিং অগোছালো, দ্বিধাপূর্ণ, এবং খামতিতে ভরা। সরলিপি মাত্র ২৬টি কী (key) ব্যবহার করে এর সমাধান দেয় — কোনো অস্পষ্ট প্রতীক বা অতিরিক্ত পরিশ্রম ছাড়াই। এটি যেকোনো কোয়ার্টি QWERTY কিবোর্ডে অনায়াসেই ব্যবহার করা যায় এবং বাংলার সঠিক উচ্চারণ ধরে রাখে। যা টাইপিংকে করে তোলে আরও দ্রুত, স্বচ্ছ এবং উচ্চারণগতভাবে স্পষ্ট।\
+আমাদের বাংলিশ টাইপিং অগোছালো, দ্বিধাপূর্ণ, এবং খামতিতে ভরা। সরলিপি মাত্র ২৬টি কী (key) ব্যবহার করে এর সমাধান দেয় — কোনো অস্পষ্ট প্রতীক বা বাড়তি পরিশ্রম ছাড়াই। এটি যেকোনো QWERTY কিবোর্ডে অনায়াসেই ব্যবহার করা যায় এবং বাংলার প্রতিটি ধ্বনি প্রকাশের ক্ষমতা রাখে। টাইপিংকে করে তোলে আরও দ্রুত, স্বচ্ছ এবং উচ্চারণগতভাবে স্পষ্ট।\
 এর উপযুক্ত ব্যবহার হতে পারে ভিনভাষীদের সহজে বাংলা শেখাতে, কিংবা বাংলা টেক্সট অসমর্থিত প্ল্যাটফর্মে, কিংবা দৈনন্দিন টেক্সটিংয়ে।
 ### Key Features
 ```mermaid
