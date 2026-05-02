@@ -107,8 +107,17 @@ Tareq Rahman [@shoshostro](https://github.com/Shoshostro)
 ### ঙ, ং ইত্যাদির উচ্চারণ লেখা
 <details>
     <summary>পড়তে ক্লিক করুন</summary>
-Placeholder
-    </details>
+
+ঙ, ং লেখা হবে ŋ দিয়ে। যেমন:  
+
+```mermaid
+flowchart TD
+a("রাঙা") --> b("raŋa")
+c("বঙ্গ") --> d("böŋgo")
+e("এবং") --> f("eböŋ")
+g("বাংলা") --> h("baŋla")
+```
+</details>
 
 ### ঞ এর উচ্চারণ লেখা
 <details>
