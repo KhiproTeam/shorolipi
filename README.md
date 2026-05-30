@@ -1,5 +1,9 @@
 # Shörolipi (সরলিপি)
 ### Shörol (সরল) + Shör (স্বর) + Lipi (লিপি)
+maintainers: @rank-coder @Shoshostro
+
+![shorolipi](https://socialify.git.ci/KhiproTeam/shorolipi/image?description=1&forks=1&issues=1&language=1&logo=https://github.com/KhiproTeam/shorolipi-logo/blob/main/shorolipi.png?raw=true&name=1&pattern=Circuit%20Board&pulls=1&stargazers=1&theme=Auto)
+
 ## কী এই shörolipi?
 Type Banglish exactly the way it sounds.\
 Banglish typing is messy, ambiguous, and inefficient. Shörolipi fixes this with just 26 keys — no obscure symbols, no extra effort. It can be implemented seamlessly on any QWERTY keyboard and captures the exact Bengali pronunciation, making typing faster, clearer, and phonetically precise.\
