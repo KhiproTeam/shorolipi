@@ -89,7 +89,7 @@ Placeholder
 
 
 ## আপনার মতামত দিন কিংবা ডেভেলপমেন্টে অবদান রাখুন
-🔗 টেলিগ্রাম গ্রুপ: [**বাংলা লিখন বিপ্লব | shörolipi**](https://t.me/BanglaScriptRevolution)
+🔗 টেলিগ্রাম গ্রুপ: [**সরলিপি | Shörolipi | বাংলা লিখন বিপ্লব**](https://t.me/shorolipi)
 
 ### Authors
 Nafee [@rank-coder](https://github.com/rank-coder)\
