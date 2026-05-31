@@ -176,7 +176,7 @@ aobhan
 | Times New Roman | ![Times New Roman](/img/tnr.png) |
 | Arial | ![Arial](/img/arl.png) |
 | Ubuntu | ![Ubuntu](/img/ubn.png) |
-| Courier | ![Courier](/img/cou.png) |
+| Courier (mono) | ![Courier](/img/cou.png) |
 | Noto Serif | ![Noto Serif](/img/nsf.png) |
 | Noto Sans | ![Noto Sans](/img/nsn.png) |
 | Roboto | ![Roboto](/img/rbt.png) |
