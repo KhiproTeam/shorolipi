@@ -168,3 +168,16 @@ Placeholder
 aobhan
 </details>
 
+### উপযুক্ত কিছু ফন্টের তালিকা
+যেসব ফন্টে ṛ ḍ ö ŋ ë ṭ এই বর্ণগুলো খারাপ দেখায় না, এবং পড়তে অসুবিধা হয় না সেরকম কিছু ফন্টের তালিকা:
+#### ইংরেজি ফন্ট
+| Font | ScrnShot |
+| --- | --- |
+| Times New Roman | ![Times New Roman](/img/tnr.png) |
+| Arial | ![Arial](/img/arl.png) |
+| Ubuntu | ![Ubuntu](/img/ubn.png) |
+| Courier | ![Courier](/img/cou.png) |
+| Noto Serif | ![Noto Serif](/img/nsf.png) |
+| Noto Sans | ![Noto Sans](/img/nsn.png) |
+| Roboto | ![Roboto](/img/rbt.png) |
+| Inter | ![Inter](/img/itr.png) |
