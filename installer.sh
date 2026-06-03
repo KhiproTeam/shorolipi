@@ -1,0 +1,550 @@
+#!/bin/bash
+
+# Shörolipi Installer Script
+# This script installs Shörolipi for IBus and Fcitx5 via m17n
+
+set -e  # Exit on any error
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+# Function to print colored output
+print_status() {
+    echo -e "${BLUE}[INFO]${NC} $1"
+}
+
+print_success() {
+    echo -e "${GREEN}[SUCCESS]${NC} $1"
+}
+
+print_warning() {
+    echo -e "${YELLOW}[WARNING]${NC} $1"
+}
+
+print_error() {
+    echo -e "${RED}[ERROR]${NC} $1"
+}
+
+# Function to detect distribution
+detect_distro() {
+    if [ -f /etc/os-release ]; then
+        . /etc/os-release
+        echo "$ID"
+    elif command -v lsb_release &> /dev/null; then
+        lsb_release -is | tr '[:upper:]' '[:lower:]'
+    else
+        echo "unknown"
+    fi
+}
+
+# Function to check if command exists
+command_exists() {
+    command -v "$1" &> /dev/null
+}
+
+# Function to check if package is installed (for Debian/Ubuntu)
+check_package_debian() {
+    dpkg -l "$1" 2>/dev/null | grep -q '^ii'
+}
+
+# Function to check if package is installed (for Fedora/RHEL)
+check_package_fedora() {
+    rpm -q "$1" &> /dev/null
+}
+
+# Function to check if package is installed (for Arch)
+check_package_arch() {
+    pacman -Q "$1" &> /dev/null
+}
+
+script_dir() {
+    local src="${BASH_SOURCE[0]}"
+    while [ -h "$src" ]; do
+        local dir
+        dir="$(cd -P "$(dirname "$src")" >/dev/null 2>&1 && pwd)"
+        src="$(readlink "$src")"
+        [[ $src != /* ]] && src="$dir/$src"
+    done
+    cd -P "$(dirname "$src")" >/dev/null 2>&1 && pwd
+}
+
+REPO_URL="https://github.com/KhiproTeam/shorolipi.git"
+MIM_NAME="bn-shorolipi.mim"
+ICON_NAME="bn-shorolipi.png"
+LOCAL_MIM="$(script_dir)/${MIM_NAME}"
+LOCAL_ICON="$(script_dir)/${ICON_NAME}"
+
+if [ "$EUID" -eq 0 ]; then
+    INSTALL_DIR="/usr/share/m17n"
+    ICON_DIR="/usr/share/m17n/icons"
+    PRIV_SUFFIX=""
+    print_status "Running as root. Installing system-wide to $INSTALL_DIR"
+else
+    INSTALL_DIR="$HOME/.m17n.d"
+    ICON_DIR="$HOME/.m17n.d/icons"
+    PRIV_SUFFIX="-local"
+    print_status "Running as user. Installing to $INSTALL_DIR"
+
+    if [ ! -d "$INSTALL_DIR" ]; then
+        print_status "Creating directory: $INSTALL_DIR"
+        mkdir -p "$INSTALL_DIR"
+    fi
+fi
+
+print_header() {
+    echo "=========================================="
+    echo "    Shörolipi Installer"
+    echo "=========================================="
+    echo ""
+}
+
+ensure_directories() {
+    if [ ! -d "$INSTALL_DIR" ]; then
+        print_status "Creating install directory: $INSTALL_DIR"
+        mkdir -p "$INSTALL_DIR"
+    fi
+    if [ ! -d "$ICON_DIR" ]; then
+        print_status "Creating icon directory: $ICON_DIR"
+        mkdir -p "$ICON_DIR"
+    fi
+}
+
+# Check if Git is installed
+print_status "Checking for Git..."
+if ! command_exists git; then
+    print_error "Git is not installed but required to download Shörolipi."
+    distro=$(detect_distro)
+    case $distro in
+        ubuntu|debian)
+            print_status "To install Git on Ubuntu/Debian:"
+            echo "  sudo apt update && sudo apt install git"
+            ;;
+        fedora|rhel|centos)
+            print_status "To install Git on Fedora/RHEL/CentOS:"
+            echo "  sudo dnf install git"
+            ;;
+        arch|manjaro)
+            print_status "To install Git on Arch/Manjaro:"
+            echo "  sudo pacman -S git"
+            ;;
+        *)
+            print_status "Please install Git using your distribution's package manager."
+            ;;
+    esac
+    exit 1
+else
+    print_success "Git is installed"
+fi
+
+print_header
+
+echo "What would you like to do?"
+echo "1. Install Shörolipi (Default)"
+echo "2. Uninstall Shörolipi"
+read -p "Enter choice [1/2]: " main_choice
+main_choice=${main_choice:-1}
+
+if [ "$main_choice" = "2" ]; then
+    print_status "Uninstallation Mode Selected"
+
+    if [ ! -d "$INSTALL_DIR" ]; then
+        print_error "Installation directory does not exist: $INSTALL_DIR"
+        exit 1
+    fi
+
+    installed_files=($(find "$INSTALL_DIR" -maxdepth 1 -name "bn-shorolipi*.mim" | sort))
+
+    if [ ${#installed_files[@]} -eq 0 ]; then
+        print_warning "No Shörolipi installations found in $INSTALL_DIR"
+        exit 0
+    fi
+
+    echo ""
+    print_status "Found the following installations:"
+    for i in "${!installed_files[@]}"; do
+        filename=$(basename "${installed_files[$i]}")
+        echo "$((i+1)). $filename"
+    done
+    echo "A. Uninstall ALL versions"
+    echo ""
+
+    print_warning "Default choice is 'None' (Cancel uninstallation)"
+    read -p "Select number to uninstall (or 'A' for all): " uninstall_choice
+
+    uninstall_choice=${uninstall_choice}
+
+    if [ -z "$uninstall_choice" ]; then
+        print_status "Cancelled. Exiting."
+        exit 0
+    fi
+
+    if [[ "$uninstall_choice" =~ ^[Aa]$ ]]; then
+        read -p "Are you sure you want to uninstall ALL versions? (y/N): " confirm_all
+        if [[ "$confirm_all" =~ ^[Yy]$ ]]; then
+            print_status "Removing all Shörolipi files..."
+            rm -f "$INSTALL_DIR"/bn-shorolipi*.mim
+            rm -f "$ICON_DIR"/bn-shorolipi*.png
+            rm -f "$INSTALL_DIR"/bn-shorolipi*.png 2>/dev/null || true
+            print_success "All versions uninstalled successfully!"
+        else
+            print_status "Cancelled."
+        fi
+        exit 0
+    elif [[ "$uninstall_choice" =~ ^[0-9]+$ ]]; then
+        index=$((uninstall_choice - 1))
+        if [ $index -ge 0 ] && [ $index -lt ${#installed_files[@]} ]; then
+            file_to_remove="${installed_files[$index]}"
+            base_name=$(basename "$file_to_remove" .mim)
+
+            print_status "Uninstalling $base_name..."
+            rm -f "$file_to_remove"
+            rm -f "$ICON_DIR/$base_name.png"
+            rm -f "$INSTALL_DIR/$base_name.png" 2>/dev/null || true
+
+            print_success "Uninstallation of $base_name complete!"
+            echo ""
+            print_warning "COMPUTER LOG OUT KORE LOG-IN KORUN"
+        else
+            print_error "Invalid selection. Exiting."
+            exit 1
+        fi
+        exit 0
+    else
+        print_status "Invalid input or Cancelled. Exiting."
+        exit 0
+    fi
+fi
+
+# Check for input method frameworks and their m17n support
+print_status "Checking input method frameworks and m17n support..."
+
+ibus_installed=false
+ibus_m17n_installed=false
+fcitx_installed=false
+fcitx_m17n_installed=false
+
+if command_exists ibus; then
+    ibus_installed=true
+    if check_package_debian "ibus-m17n" 2>/dev/null || \
+       check_package_fedora "ibus-m17n" 2>/dev/null || \
+       check_package_arch "ibus-m17n" 2>/dev/null; then
+        ibus_m17n_installed=true
+    fi
+fi
+
+if command_exists fcitx5; then
+    fcitx_installed=true
+    if check_package_debian "fcitx5-m17n" 2>/dev/null || \
+       check_package_fedora "fcitx5-m17n" 2>/dev/null || \
+       check_package_arch "fcitx5-m17n" 2>/dev/null; then
+        fcitx_m17n_installed=true
+    fi
+fi
+
+ibus_ready=false
+if [ "$ibus_installed" = true ] && [ "$ibus_m17n_installed" = true ]; then
+    ibus_ready=true
+fi
+
+fcitx_ready=false
+if [ "$fcitx_installed" = true ] && [ "$fcitx_m17n_installed" = true ]; then
+    fcitx_ready=true
+fi
+
+missing_packages=()
+show_install_help=false
+
+if [ "$ibus_ready" = true ] && [ "$fcitx_ready" = true ]; then
+    print_success "Both IBus and Fcitx5 are fully installed and supported."
+    print_status "Suggestion: We recommend using IBus for Shörolipi."
+elif [ "$ibus_ready" = true ]; then
+    print_success "IBus (with m17n support) is ready."
+elif [ "$fcitx_ready" = true ]; then
+    print_success "Fcitx5 (with m17n support) is ready."
+else
+    print_error "No fully compatible input method framework found!"
+    if [ "$ibus_installed" = false ] && [ "$fcitx_installed" = false ]; then
+        print_warning "You need to install either IBus or Fcitx5 framework."
+        show_install_help=true
+    else
+        if [ "$ibus_installed" = true ] && [ "$ibus_m17n_installed" = false ]; then
+            missing_packages+=("ibus-m17n")
+        fi
+        if [ "$fcitx_installed" = true ] && [ "$fcitx_m17n_installed" = false ]; then
+            missing_packages+=("fcitx5-m17n")
+        fi
+    fi
+
+    if [ ${#missing_packages[@]} -gt 0 ]; then
+        print_warning "The following packages are missing for your installed frameworks:"
+        for pkg in "${missing_packages[@]}"; do
+            echo "  - $pkg"
+        done
+        show_install_help=true
+    fi
+
+    if [ "$show_install_help" = true ]; then
+        distro=$(detect_distro)
+        echo ""
+        case $distro in
+            ubuntu|debian)
+                print_status "Install commands for Ubuntu/Debian:"
+                [ "$ibus_installed" = false ] && echo "  sudo apt install ibus ibus-m17n"
+                [ "$fcitx_installed" = false ] && echo "  sudo apt install fcitx5 fcitx5-m17n"
+                if [ ${#missing_packages[@]} -gt 0 ]; then
+                    echo "  sudo apt install ${missing_packages[*]}"
+                fi
+                ;;
+            fedora|rhel|centos)
+                print_status "Install commands for Fedora/RHEL/CentOS:"
+                [ "$ibus_installed" = false ] && echo "  sudo dnf install ibus ibus-m17n"
+                [ "$fcitx_installed" = false ] && echo "  sudo dnf install fcitx5 fcitx5-m17n"
+                if [ ${#missing_packages[@]} -gt 0 ]; then
+                    echo "  sudo dnf install ${missing_packages[*]}"
+                fi
+                ;;
+            arch|manjaro)
+                print_status "Install commands for Arch/Manjaro:"
+                [ "$ibus_installed" = false ] && echo "  sudo pacman -S ibus ibus-m17n"
+                [ "$fcitx_installed" = false ] && echo "  sudo pacman -S fcitx5 fcitx5-m17n"
+                if [ ${#missing_packages[@]} -gt 0 ]; then
+                    echo "  sudo pacman -S ${missing_packages[*]}"
+                fi
+                ;;
+            *)
+                print_status "Please install IBus or Fcitx5 along with their m17n packages."
+                ;;
+        esac
+    fi
+
+    echo ""
+    read -p "Do you want to continue with installation anyway? (y/N): " continue_choice
+    continue_choice=${continue_choice:-N}
+    if [[ ! $continue_choice =~ ^[Yy]$ ]]; then
+        print_status "Installation cancelled. Please resolve the dependencies."
+        exit 1
+    fi
+    print_warning "Continuing installation..."
+fi
+
+# Branch selection
+print_status "Checking available versions..."
+read -p "Install stable release from the main branch? (Y/n): " branch_choice
+branch_choice=${branch_choice:-Y}
+
+if [[ $branch_choice =~ ^[Nn]$ ]]; then
+    print_status "Fetching recent release tags..."
+    recent_tags=$(git ls-remote --tags --refs "$REPO_URL" 2>/dev/null | cut -d/ -f3 | grep -v '\^{}' | sort -V -r | head -n 3 | awk -v ORS=', ' '{print $0}' | sed 's/, $/ etc./')
+    if [ -z "$recent_tags" ]; then
+        recent_tags="e.g. v1.0.0, v0.9.0, etc."
+    fi
+
+    print_status "Fetching available branches from GitHub..."
+    branches=$(git ls-remote --heads "$REPO_URL" 2>/dev/null | awk '{print $2}' | sed 's#refs/heads/##' | sort)
+
+    if [ -z "$branches" ]; then
+        print_warning "Could not fetch branch list. Please check your internet connection."
+        print_status "You can view branches at: https://github.com/KhiproTeam/shorolipi/branches"
+        exit 1
+    fi
+
+    echo ""
+    print_success "Available installation options:"
+    echo " 1. Install by Release Number (Version Number) ($recent_tags) [DEFAULT]"
+
+    branches_array=()
+    counter=2
+    while IFS= read -r branch; do
+        echo " $counter. Install from branch: $branch"
+        branches_array+=("$branch")
+        ((counter++))
+    done <<< "$branches"
+
+    echo ""
+    read -p "Enter number [Default: 1]: " input_ver
+    input_ver=${input_ver:-1}
+
+    if [ "$input_ver" -eq 1 ]; then
+        print_status "Fetching available release tags..."
+        all_tags=$(git ls-remote --tags --refs "$REPO_URL" 2>/dev/null | cut -d/ -f3 | grep -v '\^{}' | sort -V -r)
+        if [ -z "$all_tags" ]; then
+            print_error "No release tags found."
+            exit 1
+        fi
+
+        mapfile -t tags_array <<< "$all_tags"
+        total_tags=${#tags_array[@]}
+        current_page=0
+        items_per_page=5
+
+        while true; do
+            start_index=$((current_page * items_per_page))
+            if [ $start_index -ge $total_tags ]; then
+                print_warning "No more release tags found."
+                break
+            fi
+
+            echo ""
+            print_success "Release Tags (Page $((current_page + 1))):"
+            current_items=()
+            for ((i=0; i<items_per_page; i++)); do
+                idx=$((start_index + i))
+                if [ $idx -lt $total_tags ]; then
+                    tag="${tags_array[$idx]}"
+                    echo " $((i+1)). $tag"
+                    current_items+=("$tag")
+                fi
+            done
+
+            option_next=$((items_per_page + 1))
+            user_options="1-${#current_items[@]}"
+
+            if [ $((start_index + items_per_page)) -lt $total_tags ]; then
+                echo " $option_next. Show next 5 releases"
+                user_options="$user_options, $option_next"
+            fi
+
+            echo ""
+            read -p "Select release ($user_options) [Default: 1]: " tag_choice
+            tag_choice=${tag_choice:-1}
+
+            if [[ "$tag_choice" -eq "$option_next" ]]; then
+                if [ $((start_index + items_per_page)) -lt $total_tags ]; then
+                    current_page=$((current_page + 1))
+                    continue
+                else
+                    print_warning "No more release tags found."
+                    continue
+                fi
+            elif [[ "$tag_choice" =~ ^[0-9]+$ ]]; then
+                selected_idx=$((tag_choice - 1))
+                if [ $selected_idx -lt ${#current_items[@]} ]; then
+                    branch_name="${current_items[$selected_idx]}"
+                    print_success "Selected release: $branch_name"
+                    break
+                else
+                    print_error "Invalid selection. Please try again."
+                    continue
+                fi
+            else
+                print_error "Invalid input. Please enter a valid number."
+                continue
+            fi
+        done
+
+        if [ -z "$branch_name" ]; then
+            print_warning "No release selected. Defaulting to 'main'."
+            branch_name="main"
+        fi
+    elif [[ "$input_ver" =~ ^[0-9]+$ ]]; then
+        index=$((input_ver - 2))
+        if [ $index -ge 0 ] && [ $index -lt ${#branches_array[@]} ]; then
+            branch_name="${branches_array[$index]}"
+            print_success "Selected branch: $branch_name"
+        else
+            print_error "Invalid number. Please select a valid option."
+            exit 1
+        fi
+    else
+        branch_name="$input_ver"
+        if echo "$branches" | grep -q "^${branch_name}$"; then
+            print_success "Branch '$branch_name' found!"
+        else
+            print_warning "Branch '$branch_name' not found in the list. Defaulting to 'main' if failure occurs."
+        fi
+    fi
+else
+    branch_name="main"
+    print_status "Using stable release (main branch)"
+fi
+
+if [ "$branch_name" = "main" ]; then
+    BRANCH_SUFFIX=""
+else
+    clean_branch_name=$(echo "$branch_name" | tr '.' '-')
+    BRANCH_SUFFIX="-${clean_branch_name}"
+fi
+
+FILE_SUFFIX="${BRANCH_SUFFIX}${PRIV_SUFFIX}"
+
+print_status "Starting Shörolipi installation..."
+print_status "Cleaning up previous installations..."
+rm -f "$INSTALL_DIR"/bn-shorolipi${FILE_SUFFIX}*.mim 2>/dev/null || true
+rm -f "$INSTALL_DIR"/bn-shorolipi${FILE_SUFFIX}*.png 2>/dev/null || true
+rm -rf /tmp/shorolipi-installer 2>/dev/null || true
+
+print_status "Downloading Shörolipi from GitHub..."
+if [ "$branch_name" = "main" ]; then
+    git clone "$REPO_URL" /tmp/shorolipi-installer
+else
+    git clone --branch "$branch_name" "$REPO_URL" /tmp/shorolipi-installer
+fi
+
+if [ ! -d /tmp/shorolipi-installer ]; then
+    print_error "Failed to clone repository. Please check your internet connection and branch name."
+    exit 1
+fi
+
+print_success "Repository cloned successfully!"
+print_status "Installing keyboard files..."
+cd /tmp/shorolipi-installer
+
+if [ ! -f "$MIM_NAME" ]; then
+    print_error "Required file $MIM_NAME not found in the repository!"
+    exit 1
+fi
+
+target_mim="$INSTALL_DIR/bn-shorolipi${FILE_SUFFIX}.mim"
+cp "$MIM_NAME" "$target_mim"
+
+if [ -n "$FILE_SUFFIX" ]; then
+    print_status "Modifying internal name for installation (Suffix: $FILE_SUFFIX)..."
+    sed -i "s@\(input-method bn shorolipi\)@\1${FILE_SUFFIX}@" "$target_mim"
+fi
+
+if [ -f "$ICON_NAME" ]; then
+    print_status "Installing icon..."
+    mkdir -p "$ICON_DIR/"
+    cp "$ICON_NAME" "$ICON_DIR/bn-shorolipi${FILE_SUFFIX}.png"
+    print_success "Icon installed!"
+else
+    print_warning "Icon file not found, skipping icon installation."
+fi
+
+chmod 644 "$target_mim" "$ICON_DIR/bn-shorolipi${FILE_SUFFIX}.png" 2>/dev/null || true
+print_success "Keyboard files installed successfully!"
+
+rm -rf /tmp/shorolipi-installer
+
+echo ""
+print_success "Shörolipi installation completed!"
+echo ""
+print_status "Next steps:"
+echo "1. Log out and log back in to restart your input method framework"
+echo "2. Add Shörolipi to your input method:"
+
+if [ "$ibus_installed" = true ]; then
+    echo "   - For IBus: Open IBus Preferences → Add input method: Bengali → Shörolipi"
+fi
+
+if [ "$fcitx_installed" = true ]; then
+    echo "   - For Fcitx5: Open Fcitx5 Configuration → Add Shörolipi keyboard"
+fi
+
+if [ ${#missing_packages[@]} -gt 0 ]; then
+    echo ""
+    print_warning "REMEMBER: You need to install these packages for Shörolipi to work:"
+    for pkg in "${missing_packages[@]}"; do
+        echo "   - $pkg"
+    done
+fi
+
+echo ""
+print_status "If you encounter any issues, please visit:"
+echo "  Our telegram group    ::    https://t.me/shorolipi"
+echo ""
+print_warning "COMPUTER LOG OUT KORUN, LOG-IN KORUN"
