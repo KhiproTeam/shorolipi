@@ -2,7 +2,7 @@
 ### Shörol (সরল) + Shör (স্বর) + Lipi (লিপি)
 maintainers: @rank-coder @Shoshostro
 
-![shorolipi](https://socialify.git.ci/KhiproTeam/shorolipi/image?description=1&forks=1&issues=1&language=1&logo=https://github.com/KhiproTeam/shorolipi-logo/blob/main/shorolipi.png?raw=true&name=1&pattern=Circuit%20Board&pulls=1&stargazers=1&theme=Auto)
+![shorolipi](https://socialify.git.ci/KhiproTeam/shorolipi/image?description=1&forks=1&issues=1&language=1&logo=https://github.com/KhiproTeam/shorolipi-logo/blob/main/bn-shorolipi.png?raw=true&name=1&pattern=Circuit%20Board&pulls=1&stargazers=1&theme=Auto)
 
 ## কী এই shörolipi?
 Type Banglish exactly the way it sounds.\
