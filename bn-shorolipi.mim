@@ -98,14 +98,16 @@ Authors:
         ((= SID 6) (delete @-2) (insert "x") )
         ((= SID 60) (delete @-2) (insert "X") )
       )
+      (shift init)
     )
   )
 
   (nasalizer-state
     (t
       (cond
-        ((= V 1) (delete @-) (insert "̃") (commit) (set V 0) (shift init))        
+        ((= V 1) (delete @-) (insert "̃") (commit) (set V 0))        
       )
+      (shift init)
     )
   )
 )
