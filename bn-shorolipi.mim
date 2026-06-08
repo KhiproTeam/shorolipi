@@ -105,7 +105,7 @@ Authors:
   (nasalizer-state
     (t
       (cond
-        ((= V 1) (delete @-) (insert "̃") (commit) (set V 0))        
+        ((= V 1) (delete @-) (insert "̃") (set V 0))        
       )
       (shift init)
     )
