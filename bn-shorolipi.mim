@@ -78,7 +78,10 @@ Authors:
       (shift specials-state)
     )
     (nasalizer
-      (shift nasalizer-state)
+      (cond
+        ((= V 1) (delete @-) (insert "̃"))        
+      )
+      (set V 0)
     )
   )
   
@@ -100,15 +103,5 @@ Authors:
       )
       (shift init)
     )
-  )
-
-  (nasalizer-state
-    (t
-      (cond
-        ((= V 1) (delete @-) (insert "̃"))        
-      )
-      (set V 0)
-      (shift init)
-    )
-  )
+  )  
 )
