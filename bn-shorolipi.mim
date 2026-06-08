@@ -1,7 +1,7 @@
 (input-method bn shorolipi)
 
 (description "
-<Placeholder>
+A Shörolipi Bengali input method for m17n that enables phonetic Banglish typing on QWERTY keyboards with a simple, unambiguous 26-key scheme.
 Authors:
   Nafee [<https://github.com/rank-coder>]
   Tareq Rahman [<https://github.com/Shoshostro>]
