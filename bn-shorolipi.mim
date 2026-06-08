@@ -8,45 +8,105 @@ Authors:
 ")
 
 (title "b")
-(map
-(trans
-
-
 ;; Mappings
-("q" "ṛ") ("Q" "q")
-("w" "ḍ") ("W" "w")
-("v" "ṭ") ("V" "v")
-("f" "ö") ("F" "f")
-("z" "ŋ") ("Z" "z")
-("x" "ë") ("X" "x")
+(map  
+  (regulars
+    ("e" (set V 1) "e")
+    ("r" (set V 0) "r")
+    ("t" (set V 0) "t")
+    ("y" (set V 0) "y")
+    ("u" (set V 1) "u")
+    ("i" (set V 1) "i")
+    ("o" (set V 1) "o")
+    ("p" (set V 0) "p")
+    ("a" (set V 1) "a")
+    ("s" (set V 0) "s")
+    ("d" (set V 0) "d")
+    ("g" (set V 0) "g")
+    ("h" (set V 0) "h")
+    ("j" (set V 0) "j")
+    ("k" (set V 0) "k")
+    ("l" (set V 0) "l")
+    ("c" (set V 0) "c")
+    ("b" (set V 0) "b")
+    ("n" (set V 0) "n")
+    ("m" (set V 0) "m")
 
-("E" "e")
-("R" "r")
-("T" "t")
-("Y" "y")
-("U" "u")
-("I" "i")
-("O" "o")
-("P" "p")
-("A" "a")
-("S" "s")
-("D" "d")
-("G" "g")
-("H" "h")
-("J" "j")
-("K" "k")
-("L" "l")
-("C" "c")
-("B" "b")
-("N" "n")
-("M" "m")
+    ("E" (set V 1) "E")
+    ("R" (set V 0) "R")
+    ("T" (set V 0) "T")
+    ("Y" (set V 0) "Y")
+    ("U" (set V 1) "U")
+    ("I" (set V 1) "I")
+    ("O" (set V 1) "O")
+    ("P" (set V 0) "P")
+    ("A" (set V 1) "A")
+    ("S" (set V 0) "S")
+    ("D" (set V 0) "D")
+    ("G" (set V 0) "G")
+    ("H" (set V 0) "H")
+    ("J" (set V 0) "J")
+    ("K" (set V 0) "K")
+    ("L" (set V 0) "L")
+    ("C" (set V 0) "C")
+    ("B" (set V 0) "B")
+    ("N" (set V 0) "N")
+    ("M" (set V 0) "M")
+  )
+  (specials
+    ("q" (set V 0) (set SID 1) "ṛ") ("Q" (set V 0) (set SID 10) "Ṛ")
+    ("w" (set V 0) (set SID 2) "ḍ") ("W" (set V 0) (set SID 20) "Ḍ")
+    ("v" (set V 0) (set SID 3) "ṭ") ("V" (set V 0) (set SID 30) "Ṭ")
+    ("f" (set V 1) (set SID 4) "ö") ("F" (set V 1) (set SID 40) "Ö")
+    ("z" (set V 0) (set SID 5) "ŋ") ("Z" (set V 0) (set SID 50) "Ŋ")
+    ("x" (set V 1) (set SID 6) "ë") ("X" (set V 1) (set SID 60) "Ë")
+  )
+  (nasalizer
+    ("/" "/")
+  )
+  (modifier
+    (";" ";")
+  )
+)
 
- 
-("/" "̃") ("//" "/")
- 
 
-))
-
+;; state machine
 (state
   (init
-    (trans)))
+    (regulars)
+    (specials
+      (shift specials-state)
+    )
+    (nasalizer
+      (shift nasalizer-state)
+    )
+  )
+  
+  (specials-state
+    (modifier
+      (cond
+        ((= SID 1) (delete @-) (insert "q") )
+        ((= SID 10) (delete @-) (insert "Q") )
+        ((= SID 2) (delete @-) (insert "w") )
+        ((= SID 20) (delete @-) (insert "q") )
+        ((= SID 3) (delete @-) (insert "v") )
+        ((= SID 30) (delete @-) (insert "q") )
+        ((= SID 4) (delete @-) (insert "f") )
+        ((= SID 40) (delete @-) (insert "q") )
+        ((= SID 5) (delete @-) (insert "z") )
+        ((= SID 50) (delete @-) (insert "q") )
+        ((= SID 6) (delete @-) (insert "x") )
+        ((= SID 60) (delete @-) (insert "q") )
+      )
+    )
+  )
+
+  (nasalizer-state
+    (t
+      (cond
+        ((= VID 1) (delete @-) (insert "̃") (shift init))
+        (1 (shift init))
+      )
+    )
+  )
+)
