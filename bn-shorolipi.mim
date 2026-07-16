@@ -228,6 +228,9 @@ Authors:
   (blinder
     (";" ";")
   )
+  (backspace
+		( (BackSpace)  (undo) )
+  )
 )
 
 
@@ -238,12 +241,14 @@ Authors:
     (specials)
     (nasalizer)
     (blinder (shift blind-state))
+	(backspace)
   )
   (blind-state
 		(lowercaseIdentity (move @-) (delete @-) (move @>) (shift blind-state2))
 		(uppercaseIdentity (move @-) (delete @-) (move @>) (shift blind-state2))
 		(digitsIdentity (move @-) (delete @-) (move @>) (shift blind-state2))
 		(symbolsIdentity (move @-) (delete @-) (move @>) (shift blind-state2))
+		(backspace)
 	)
 	(blind-state2
 		(lowercaseIdentity)
@@ -251,5 +256,6 @@ Authors:
 		(digitsIdentity)
 		(symbolsIdentity)
 		(blinder (delete @-) (shift init))
+		(backspace)
 	)
 )
