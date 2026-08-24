@@ -86,11 +86,27 @@ c("কেনো
 3. লিনাক্স পিসিতে [bn-shorolipi.mim for m17n](bn-shorolipi.mim) ব্যবহার করে লেখা যাবে। এটা এই রিপোজিটরিতে অন্তর্ভুক্ত করা হয়েছে।
 
 ## এক নজরে (ওভারভিউ)
-Placeholder
+| Shörolipi | বাংলা লিপি | Shörolipi | বাংলা লিপি |
+|:---:|:---:|:---:|:---:|
+| ḍ | ড | i | ই |
+| ë | অ্যা | j | জ, য |
+| ŋ | ঙ, ং | k | ক |
+| ö | অ | l | ল |
+| ṛ | ড় | m | ম |
+| ṭ | ট | n | ন, ণ |
+| a | আ | o | ও |
+| b | ব | p | প |
+| c | চ | r | র |
+| d | দ | s | স |
+| e | এ | t | ত |
+| g | গ | u | উ |
+| h | হ | y | য় |
 
 ## ইনস্টলেশন নির্দেশনা 
 টারমিনালে রান করুন এবং তারপর দেখানো নির্দেশনাগুলি অনুসরণ করুন—\
-`bash -c "$(curl -fsSL https://raw.githubusercontent.com/KhiproTeam/shorolipi/main/installer.sh)"`
+```
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/KhiproTeam/shorolipi/main/installer.sh)"
+```
 
 
 ## আপনার মতামত দিন কিংবা ডেভেলপমেন্টে অবদান রাখুন
