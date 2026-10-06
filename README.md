@@ -41,7 +41,7 @@ K("মেলা
 
 ![Screenshot_20251204_012309](https://github.com/user-attachments/assets/874fe7dc-16db-4bd6-894b-842f15ca9886)\
 Unexpected Keyboard-এ—\
-<img width="528" height="529" alt="Screenshot_2026-08-15-12-55-45-382_com microsoft launcher-edit" src="https://github.com/user-attachments/assets/ec05b497-2269-4749-85f8-9725b5f95c99" />
+<img width="771" height="609" alt="IMG_20260930_172220" src="https://github.com/user-attachments/assets/1dd28b92-717d-40b0-9461-fa5cee4db4a4" />
 
 > [!NOTE]
 > ফোনে লেখার সময় লং প্রেস করে পরিবর্তিত বর্ণের (ṛ ḍ ö ŋ ë ṭ) পরিবর্তে মূল qwerty লেআউটের বর্ণগুলো (q w f z x v) লেখা যাবে। ফলে চাইলে ইংরেজিতে সুইচ না করেও বাংলা ইংরেজি মিলিয়ে একসাথে লেখা যাবে। Unexpected-এ সোয়াইপ করে ব্যবহার করা হয়।
