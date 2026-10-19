@@ -1,6 +1,6 @@
 # Shörolipi (সরলিপি)
 ### Shörol (সরল) + Shör (স্বর) + Lipi (লিপি)
-maintainers: @rank-coder @shoshostro
+maintainers: [@rank-coder](https://github.com/rank-coder/), [@tareqlr](https://github.com/tareqlr)
 
 ![shorolipi](https://socialify.git.ci/KhiproTeam/shorolipi/image?description=1&forks=1&issues=1&language=0&logo=https://github.com/KhiproTeam/shorolipi-logo/blob/main/bn-shorolipi.png?raw=true&name=1&pattern=Circuit%20Board&pulls=1&stargazers=1&theme=Auto)
 
@@ -252,6 +252,17 @@ c("চিহ্ন") --> d("cinnho অথবা, cinho")
 ```
 
 </details>
+
+### ঋ-কার ও র-ফলার উচ্চারণ লেখা
+শব্দের মধ্যে বা শেষে ঋ-কার বা র-ফলা থাকলে যুক্তব্যঞ্জনবর্ণটির উচ্চারণ দুইবার হয়। কিন্তু সরলীকরণের জন্য সরলিপিতে ঋ-কার ও র-ফলা যুক্ত ব্যঞ্জনবর্ণটিকে দুইবার লেখা হবে না। বরং এক্ষেত্রে এদেরকে এদের বানানের অনুরূপ লেখা হবে। যেমন:
+
+```mermaid
+
+flowchart LR
+a("পিতৃ") --> b("pitri")
+c("মিত্র") --> d("mitro")
+
+```
 
 ### উপযুক্ত কিছু ফন্টের তালিকা
 যেসব ফন্টে ṛ ḍ ö ŋ ë ṭ এই বর্ণগুলো খারাপ দেখায় না, এবং পড়তে অসুবিধা হয় না সেরকম কিছু ফন্টের তালিকা:
