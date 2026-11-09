@@ -39,9 +39,10 @@ K("মেলা
 ```
 ## ফোনে যেমন দেখাবে
 
-![Screenshot_20251204_012309](https://github.com/user-attachments/assets/874fe7dc-16db-4bd6-894b-842f15ca9886)\
-Unexpected Keyboard-এ—\
-<img width="771" height="609" alt="IMG_20260930_172220" src="https://github.com/user-attachments/assets/1dd28b92-717d-40b0-9461-fa5cee4db4a4" />
+![Screenshot_20251204_012309](https://github.com/user-attachments/assets/874fe7dc-16db-4bd6-894b-842f15ca9886)  
+
+Unexpected Keyboard-এ—  
+<img width="771" height="609" alt="IMG_20260930_172220" src="https://github.com/user-attachments/assets/1dd28b92-717d-40b0-9461-fa5cee4db4a4" />  
 
 > [!NOTE]
 > ফোনে লেখার সময় লং প্রেস করে পরিবর্তিত বর্ণের (ṛ ḍ ö ŋ ë ṭ) পরিবর্তে মূল qwerty লেআউটের বর্ণগুলো (q w f z x v) লেখা যাবে। ফলে চাইলে ইংরেজিতে সুইচ না করেও বাংলা ইংরেজি মিলিয়ে একসাথে লেখা যাবে। Unexpected-এ সোয়াইপ করে ব্যবহার করা হয়।
@@ -277,3 +278,9 @@ c("মিত্র") --> d("mitro")
 | Noto Sans | ![Noto Sans](/img/nsn.png) |
 | Roboto | ![Roboto](/img/rbt.png) |
 | Inter | ![Inter](/img/itr.png) |
+
+### Multilingual Typing
+যদিও সরলিপির প্রমিত লেআউট দিয়ে multilingual typing করা যায়, তবুও লেখার সুবিধার্থে **Shörolipi-Q** লেআউটটি তৈরি করা হয়েছে। এটি ইংরেজি QWERTY লেআউটের extended version. উপরে থাকা `shörolipi-q-heliboard.txt` ফাইলটি হেলিবোর্ডে ইমপোর্ট করে লেআউটটি ব্যবহার করা যাবে।
+
+HeliBoard-এ Shörolipi-Q layout—
+<img width="1080" height="670" alt="shörolipi-q-layout-on-touchscreen" src="https://github.com/user-attachments/assets/45f0f90c-6d17-4292-8ec6-bebfbe65d38f" />
