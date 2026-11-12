@@ -82,7 +82,7 @@ c("কেনো
 ```
 
 ## কীভাবে / কোথায় ব্যবহার করব?
-1. ফোনে Heliboard -এ কাস্টোম লেআউট তৈরি করে লেখা যাবে। তার জন্য [shorolipi-heliboard.txt](shorolipi-heliboard.txt) দেওয়া হয়েছে।
+1. ফোনে Heliboard -এ কাস্টোম লেআউট তৈরি করে লেখা যাবে। তার জন্য [shorolipi.txt](shorolipi.txt) দেওয়া হয়েছে।
 2. [shorolipi-unexpected_keyboard.xml](shorolipi-unexpected_keyboard.xml)-এর মাধ্যমে মোবাইলে Unexpected Keyboard-এ লেখা যাবে।
 3. লিনাক্স পিসিতে [bn-shorolipi.mim for m17n](bn-shorolipi.mim) ব্যবহার করে লেখা যাবে। এটা এই রিপোজিটরিতে অন্তর্ভুক্ত করা হয়েছে।
 
@@ -280,7 +280,7 @@ c("মিত্র") --> d("mitro")
 | Inter | ![Inter](/img/itr.png) |
 
 ### Multilingual Typing
-যদিও সরলিপির প্রমিত লেআউট দিয়ে multilingual typing করা যায়, তবুও লেখার সুবিধার্থে **Shörolipi-Q** লেআউটটি তৈরি করা হয়েছে। এটি ইংরেজি QWERTY লেআউটের extended version. উপরে থাকা `shörolipi-q-heliboard.txt` ফাইলটি হেলিবোর্ডে ইমপোর্ট করে লেআউটটি ব্যবহার করা যাবে।
+যদিও সরলিপির প্রমিত লেআউট দিয়ে multilingual typing করা যায়, তবুও লেখার সুবিধার্থে **Shörolipi-Q** লেআউটটি তৈরি করা হয়েছে। এটি ইংরেজি QWERTY লেআউটের extended version. উপরে থাকা [shorolipi-q.txt](shorolipi-q.txt) ফাইলটি হেলিবোর্ডে ইমপোর্ট করে লেআউটটি ব্যবহার করা যাবে।
 
 HeliBoard-এ Shörolipi-Q layout—
 <img width="1080" height="670" alt="shörolipi-q-layout-on-touchscreen" src="https://github.com/user-attachments/assets/45f0f90c-6d17-4292-8ec6-bebfbe65d38f" />
